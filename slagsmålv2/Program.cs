@@ -164,10 +164,13 @@ void MatchStartUp()
 
         while (betting == true)
         {
-            Console.Clear();
-            Console.WriteLine("What will you bet on, that you win or lose?");
-            answer1 = Console.ReadLine();
-            winLose = answer1.ToLower();
+            while(winLose != "win" || winLose != "lose")
+            {
+                Console.Clear();
+                Console.WriteLine("What will you bet on, that you win or lose?");
+                answer1 = Console.ReadLine();
+                winLose = answer1.ToLower();
+            }
 
             Success = false;
             while (Success == false)
@@ -534,7 +537,7 @@ static bool Fight(string name, string bot, int pStr, int pVit, int pCrit, int bS
         answer2 = "pebbles";
         while (answer2 != "q" && answer2 != "quick" && answer2 != "h" && answer2 != "heavy")
         {
-            Console.WriteLine($"(Quick = {pDmg} dmg and 75% accuracy | Heavy = {pDmg + pDmg / 2} dmg and 40% accuracy) \nQuick answer2 or Heavy answer2? [q/h || quick/heavy]");
+            Console.WriteLine($"(Quick = {pDmg} dmg and 75% accuracy | Heavy = {pDmg + pDmg / 2} dmg and 40% accuracy) \nQuick attack or Heavy attack? [q/h || quick/heavy]");
             answer1 = Console.ReadLine();
             answer2 = answer1.ToLower();
 
@@ -548,13 +551,13 @@ static bool Fight(string name, string bot, int pStr, int pVit, int pCrit, int bS
                     {
                         Console.Clear();
                         bHp -= pDmg * 2;
-                        Console.WriteLine($"You hit {bot} with a quick answer2 crit dealing {pDmg * 2} damage.");
+                        Console.WriteLine($"You hit {bot} with a quick attack crit dealing {pDmg * 2} damage.");
                     }
                     else
                     {
                         Console.Clear();
                         bHp -= pDmg;
-                        Console.WriteLine($"You hit {bot} with a quick answer2 dealing {pDmg} damage.");
+                        Console.WriteLine($"You hit {bot} with a quick attack dealing {pDmg} damage.");
                     }
                 }
                 else
@@ -573,13 +576,13 @@ static bool Fight(string name, string bot, int pStr, int pVit, int pCrit, int bS
                     {
                         Console.Clear();
                         bHp -= pDmg * 2 + pDmg / 2;
-                        Console.WriteLine($"You hit {bot} with a heavy answer2 crit dealing {pDmg * 2 + pDmg / 2} damage.");
+                        Console.WriteLine($"You hit {bot} with a heavy attack crit dealing {pDmg * 2 + pDmg / 2} damage.");
                     }
                     else
                     {
                         Console.Clear();
                         bHp -= pDmg + pDmg / 2;
-                        Console.WriteLine($"You hit {bot} with a heavy answer2 dealing {pDmg + pDmg / 2} damage.");
+                        Console.WriteLine($"You hit {bot} with a heavy attack dealing {pDmg + pDmg / 2} damage.");
                     }
                 }
                 else
@@ -619,13 +622,13 @@ static bool Fight(string name, string bot, int pStr, int pVit, int pCrit, int bS
                 {
                     Console.Clear();
                     pHp -= bDmg * 2;
-                    Console.WriteLine($"{bot} hit you with a quick answer2 crit dealing {bDmg * 2} damage.");
+                    Console.WriteLine($"{bot} hit you with a quick attack crit dealing {bDmg * 2} damage.");
                 }
                 else
                 {
                     Console.Clear();
                     pHp -= bDmg;
-                    Console.WriteLine($"{bot} hit you with a quick answer2 dealing {bDmg} damage.");
+                    Console.WriteLine($"{bot} hit you with a quick attack dealing {bDmg} damage.");
                 }
             }
             else
@@ -644,13 +647,13 @@ static bool Fight(string name, string bot, int pStr, int pVit, int pCrit, int bS
                 {
                     Console.Clear();
                     pHp -= bDmg * 2 + bDmg / 2;
-                    Console.WriteLine($"{bot} hit you with a heavy answer2 crit dealing {bDmg * 2 + bDmg / 2} damage.");
+                    Console.WriteLine($"{bot} hit you with a heavy attack crit dealing {bDmg * 2 + bDmg / 2} damage.");
                 }
                 else
                 {
                     Console.Clear();
                     pHp -= bDmg + bDmg / 2;
-                    Console.WriteLine($"{bot} hit you with a heavy answer2 dealing {bDmg + bDmg / 2} damage.");
+                    Console.WriteLine($"{bot} hit you with a heavy attack dealing {bDmg + bDmg / 2} damage.");
                 }
             }
             else
