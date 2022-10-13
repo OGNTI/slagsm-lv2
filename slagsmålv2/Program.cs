@@ -1,5 +1,6 @@
 ﻿bool match = true;
 bool outcome;
+bool Success = false;
 int gold = 100;
 int bet = 0;
 int pStr = 0;
@@ -9,7 +10,7 @@ int skillPoint = 0;
 int bStr = 0;
 int bVit = 0;
 int bCrit = 0;
-int bSkills = 5;
+// int bSkills = 5;
 int streak = 0;
 int rounds = 0;
 string winLose = "boulder";
@@ -39,7 +40,8 @@ while (name.Length < 2 || name.Length > 12)
 
 while (match == true)
 {
-    bot = GetBot();
+    // bot = GetBot();          // old way of randomizing
+    Bot();                      // new way for player too choose
     MatchStartUp();
     FighterCustomizing();
     outcome = Fight(name, bot, pStr, pVit, pCrit, bStr, bVit, bCrit, pAvatar, bAvatar, rounds);
@@ -73,7 +75,7 @@ while (match == true)
         {
             Console.WriteLine("You lost your bet, you bet on winning.");
         }
-        if(streak > 0)
+        if (streak > 0)
         {
             Console.WriteLine("Your streak has been reset.");
             streak = 0;
@@ -81,39 +83,85 @@ while (match == true)
     }
 
     answer2 = "pebbles";
-    while(answer2 != "no" && answer2 != "yes")
+    while (answer2 != "no" && answer2 != "yes")
     {
         Console.WriteLine("Do you want to fight again?");
         answer1 = Console.ReadLine();
         answer2 = answer1.ToLower();
 
-        if(answer2 == "no")
+        if (answer2 == "no")
         {
             match = false;
         }
-    } 
+    }
 }
 
-static string GetBot()
+void Bot()
 {
-    string bot = "pebble";
-    Random generator = new Random();
-    int botNum = generator.Next(1, 4);
-    if (botNum == 1)
+    Console.Clear();
+    Console.WriteLine($"{name} choose your opponent. \nJohn: 2 strength, 2 vitality and 1 crit chance. \nMax: 1 strength, 1 vitality and 3 crit chance. \nSteve: 0 strength, 5 vitality and 2 crit chance. \nCharles: 2 strength, 3 vitality and 5 crit chance.");
+    answer1 = Console.ReadLine();
+    answer2 = answer1.ToLower();
+    while (answer2 != "john" && answer2 != "max" && answer2 != "steve" && answer2 != "charles")
+    {
+        Console.WriteLine("That was not an option, try again.");
+        answer1 = Console.ReadLine();
+        answer2 = answer1.ToLower();
+    }
+
+    if (answer2 == "john")
     {
         bot = "John";
+        bStr = 2 * 2;
+        bVit = 2 * 10;
+        bCrit = 1;
     }
-    else if (botNum == 2)
+    else if (answer2 == "max")
     {
         bot = "Max";
+        bStr = 1 * 2;
+        bVit = 1 * 10;
+        bCrit = 3;
     }
-    else if (botNum == 3)
+    else if (answer2 == "steve")
     {
         bot = "Steve";
+        bStr = 0 * 2;
+        bVit = 5 * 10;
+        bCrit = 2;
+    }
+    else if (answer2 == "charles")
+    {
+        bot = "Charles";
+        bStr = 2 * 2;
+        bVit = 3 * 10;
+        bCrit = 5;
     }
 
-    return bot;
+    Console.WriteLine($"You chose to fight {bot}. \nPress enter to continue.");
+    Console.ReadLine();
 }
+
+// static string GetBot()
+// {
+//     string bot = "pebble";
+//     Random generator = new Random();
+//     int botNum = generator.Next(1, 4);
+//     if (botNum == 1)
+//     {
+//         bot = "John";
+//     }
+//     else if (botNum == 2)
+//     {
+//         bot = "Max";
+//     }
+//     else if (botNum == 3)
+//     {
+//         bot = "Steve";
+//     }
+
+//     return bot;
+// }
 
 void MatchStartUp()
 {
@@ -121,7 +169,7 @@ void MatchStartUp()
     winLose = "pebbles";
 
     Console.Clear();
-    Console.WriteLine($"In this next fight, we will see {name} against {bot}. \nDo you wish to bet gold on the fight? (If you win the bet get 2x the gold) \nCurrent gold: {gold}.");
+    Console.WriteLine($"In this next fight, we will see {name} against {bot}. \nDo you wish to bet gold on the fight? [Current gold: {gold}] (If you win the bet get 2x the gold) \n[yes/no].");
     answer1 = Console.ReadLine();
     answer2 = answer1.ToLower();
 
@@ -142,28 +190,32 @@ void MatchStartUp()
             answer1 = Console.ReadLine();
             winLose = answer1.ToLower();
 
-            Console.WriteLine($"How much gold do you wish to bet? Current gold: {gold}.");
-            answer1 = Console.ReadLine();
-            bet = Convert.ToInt32(answer1);
+            Success = false;
+            while (Success == false)
+            {
+                Console.WriteLine($"How much gold do you wish to bet? Current gold: {gold}.");
+                answer1 = Console.ReadLine();
+                Success = int.TryParse(answer1, out bet);
+            }
 
             while (bet > gold || bet < 1)
                 if (bet > gold)
                 {
                     Console.WriteLine($"You want to bet {bet} gold but you only have {gold} gold. You cannot bet more gold than you have, try again. \nHow much gold do you wish to bet?");
                     answer1 = Console.ReadLine();
-                    bet = Convert.ToInt32(answer1);
+                    Success = int.TryParse(answer1, out bet);
                 }
                 else if (bet == 0)
                 {
                     Console.WriteLine("You cannot bet 0 gold, try again. \nHow much gold do you wish to bet?");
                     answer1 = Console.ReadLine();
-                    bet = Convert.ToInt32(answer1);
+                    Success = int.TryParse(answer1, out bet);
                 }
                 else if (bet < 0)
                 {
                     Console.WriteLine("You cannot bet a negative amount of gold, try again. \nHow much gold do you wish to bet?");
                     answer1 = Console.ReadLine();
-                    bet = Convert.ToInt32(answer1);
+                    Success = int.TryParse(answer1, out bet);
                 }
 
             Console.WriteLine($"You wish to bet {bet} gold?");
@@ -179,9 +231,13 @@ void MatchStartUp()
             }
             else
             {
-                Console.WriteLine("Do you want bet another amount?");
-                answer1 = Console.ReadLine();
-                answer2 = answer1.ToLower();
+                answer2 = "pebbles";
+                while (answer2 != "yes" && answer2 != "no")
+                {
+                    Console.WriteLine("Do you want to bet another amount?");
+                    answer1 = Console.ReadLine();
+                    answer2 = answer1.ToLower();
+                }
 
                 if (answer2 == "no")
                 {
@@ -210,7 +266,7 @@ void MatchStartUp()
     {
         Console.WriteLine("How many rounds do you want the fight to consist of? \nHave to be atleast 4 and maximum 16.");
         answer1 = Console.ReadLine();
-        bool roundSuccess = int.TryParse(answer1, out rounds);
+        Success = int.TryParse(answer1, out rounds);
     }
 }
 
@@ -255,29 +311,29 @@ void FighterCustomizing()
         }
     }
 
-    bStr = 0;
-    bVit = 0;
-    bCrit = 0;
-    bSkills = 5;
-    while (bSkills > 0)
-    {
-        int bStats = generator.Next(1, 4);
-        if (bStats == 1)
-        {
-            bStr += 2;
-            bSkills--;
-        }
-        else if (bStats == 2)
-        {
-            bVit += 10;
-            bSkills--;
-        }
-        else if (bStats == 3)
-        {
-            bCrit += 1;
-            bSkills--;
-        }
-    }
+    // bStr = 0;            //old way of randomizing bot skills
+    // bVit = 0;
+    // bCrit = 0;
+    // bSkills = 5;
+    // while (bSkills > 0)
+    // {
+    //     int bStats = generator.Next(1, 4);
+    //     if (bStats == 1)
+    //     {
+    //         bStr += 2;
+    //         bSkills--;
+    //     }
+    //     else if (bStats == 2)
+    //     {
+    //         bVit += 10;
+    //         bSkills--;
+    //     }
+    //     else if (bStats == 3)
+    //     {
+    //         bCrit += 1;
+    //         bSkills--;
+    //     }
+    // }
 
     Console.WriteLine($"{name} has {pStr / 2} strength, {pVit / 10} vitality and {pCrit} crit chance. \n{bot} has {bStr / 2} strength, {bVit / 10} vitality and {bCrit} crit chance. \nPress enter to continue.");
     Console.ReadLine();
@@ -499,7 +555,7 @@ static bool Fight(string name, string bot, int pStr, int pVit, int pCrit, int bS
         answer2 = "pebbles";
         while (answer2 != "q" && answer2 != "quick" && answer2 != "h" && answer2 != "heavy")
         {
-            Console.WriteLine($"(Quick = {pDmg} dmg and 75% accuracy | Heavy = {pDmg + pDmg / 2} dmg and 40% accuracy) \nQuick Attack or Heavy Attack? [q/h or quick/heavy]");
+            Console.WriteLine($"(Quick = {pDmg} dmg and 75% accuracy | Heavy = {pDmg + pDmg / 2} dmg and 40% accuracy) \nQuick Attack or Heavy Attack? [q/h || quick/heavy]");
             answer1 = Console.ReadLine();
             answer2 = answer1.ToLower();
 
@@ -641,15 +697,15 @@ static bool Fight(string name, string bot, int pStr, int pVit, int pCrit, int bS
             break;
         }
 
-        if(round == rounds)
+        if (round == rounds)
         {
-            if(bHp < pHp)
+            if (bHp < pHp)
             {
                 Console.WriteLine($"The last round has ended. You had more Hp than {bot}.");
                 outcome = true;
                 break;
             }
-            else if(pHp < bHp)
+            else if (pHp < bHp)
             {
                 Console.WriteLine($"The last round has ended. {bot} had more Hp than you.");
                 outcome = false;
