@@ -99,7 +99,7 @@ while (match == true)
 void Bot()
 {
     Console.Clear();
-    Console.WriteLine($"{name} choose your opponent. \nJohn: 2 strength, 2 vitality and 1 crit chance. \nMax: 1 strength, 1 vitality and 3 crit chance. \nSteve: 0 strength, 5 vitality and 2 crit chance. \nCharles: 2 strength, 3 vitality and 5 crit chance.");
+    Console.WriteLine($"{name} choose your opponent. \nJohn: 2 strength, 2 vitality and 1 crit chance. \nMax: 1 strength, 1 vitality and 3 crit chance. \nSteve: 0 strength, 5 vitality and 2 crit chance. \nCharles: 2 strength, 3 vitality and 5 crit chance. \nTalion: 5 strength, 10 vitality and 5 crit chance.");
     answer1 = Console.ReadLine();
     answer2 = answer1.ToLower();
     while (answer2 != "john" && answer2 != "max" && answer2 != "steve" && answer2 != "charles")
@@ -137,6 +137,13 @@ void Bot()
         bVit = 3 * 10;
         bCrit = 5;
     }
+    else if (answer2 == "talion")
+    {
+        bot = "Talion";
+        bStr = 5 * 2;
+        bVit = 10 * 10;
+        bCrit = 5;
+    }
 
     Console.WriteLine($"You chose to fight {bot}. \nPress enter to continue.");
     Console.ReadLine();
@@ -152,7 +159,7 @@ void MatchStartUp()
     answer1 = Console.ReadLine();
     answer2 = answer1.ToLower();
 
-    while(answer2 != "yes" && answer2 != "no")
+    while (answer2 != "yes" && answer2 != "no")
     {
         Console.WriteLine($"Do you wish to bet gold on the fight? [Current gold: {gold}]");
         answer1 = Console.ReadLine();
@@ -226,7 +233,7 @@ void MatchStartUp()
             answer1 = Console.ReadLine();
             answer2 = answer1.ToLower();
 
-            while(answer2 != "yes" && answer2 != "no")
+            while (answer2 != "yes" && answer2 != "no")
             {
                 Console.WriteLine($"Yes/no");
                 answer1 = Console.ReadLine();
@@ -291,14 +298,39 @@ void MatchStartUp()
 void FighterCustomizing()
 {
     Console.Clear();
-    skillPoint += 3;
+    skillPoint += 50;
     while (skillPoint > 0)
     {
+        if (pStr >= 20 && pVit >= 100 && pCrit >= 10)
+        {
+            Console.WriteLine("All your skills are at the max level. \nPress enter to continue.");
+            Console.ReadLine();
+            break;
+        }
+
         Console.WriteLine($"You have {skillPoint} skillpoints to spend. \nWhat do you want to spend a skill point on? \nStrength(str), Vitality(vit) or Crit Chance(crit)?");
         answer1 = Console.ReadLine();
         answer2 = answer1.ToLower();
 
-        if (answer2 == "strength" || answer2 == "str")
+        if (answer2 == "strength" || answer2 == "str" && pStr >= 20)
+        {
+            pStr = 20;
+            Console.Clear();
+            Console.WriteLine("Your strength is already at the max level.");
+        }
+        else if (answer2 == "vitality" || answer2 == "vit" && pVit >= 100)
+        {
+            pVit = 100;
+            Console.Clear();
+            Console.WriteLine("Your vitality is already at the max level.");
+        }
+        else if (answer2 == "crit chance" || answer2 == "crit" && pCrit >= 10)
+        {
+            pCrit = 10;
+            Console.Clear();
+            Console.WriteLine("Your crit chance is already at the max level.");
+        }
+        else if (answer2 == "strength" || answer2 == "str")
         {
             pStr += 2;
             skillPoint--;
@@ -311,7 +343,7 @@ void FighterCustomizing()
             Console.Clear();
 
         }
-        else if (answer2 == "crit chance" || answer2 == "crit" || answer2 == "chance")
+        else if (answer2 == "crit chance" || answer2 == "crit")
         {
             pCrit += 1;
             skillPoint--;
@@ -561,6 +593,7 @@ static bool Fight(string name, string bot, int pStr, int pVit, int pCrit, int bS
     string answer1;
     string answer2 = "pebble";
     Random generator = new Random();
+    pCrit++;
 
     Console.Clear();
     Console.WriteLine(pAvatar);
@@ -582,8 +615,8 @@ static bool Fight(string name, string bot, int pStr, int pVit, int pCrit, int bS
                 acc = generator.Next(1, 5);
                 if (acc > 1)
                 {
-                    crit = generator.Next(1 + pCrit, 21);
-                    if (crit == 1 + pCrit)
+                    crit = generator.Next(pCrit, 21);
+                    if (crit == pCrit)
                     {
                         Console.Clear();
                         bHp -= pDmg * 2;
@@ -607,8 +640,8 @@ static bool Fight(string name, string bot, int pStr, int pVit, int pCrit, int bS
                 acc = generator.Next(1, 11);
                 if (acc < 5)
                 {
-                    crit = generator.Next(1 + pCrit, 21);
-                    if (crit == 1 + pCrit)
+                    crit = generator.Next(pCrit, 21);
+                    if (crit == pCrit)
                     {
                         Console.Clear();
                         bHp -= pDmg * 2 + pDmg / 2;
