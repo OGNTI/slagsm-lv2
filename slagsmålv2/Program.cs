@@ -152,6 +152,13 @@ void MatchStartUp()
     answer1 = Console.ReadLine();
     answer2 = answer1.ToLower();
 
+    while(answer2 != "yes" && answer2 != "no")
+    {
+        Console.WriteLine($"Do you wish to bet gold on the fight? [Current gold: {gold}]");
+        answer1 = Console.ReadLine();
+        answer2 = answer1.ToLower();
+    }
+
     if (answer2 == "yes")
     {
         bool betting = true;
@@ -175,7 +182,7 @@ void MatchStartUp()
             Success = false;
             while (Success == false)
             {
-                Console.WriteLine($"How much gold do you wish to bet? Current gold: {gold}.");
+                Console.WriteLine($"How much gold do you wish to bet? [Current gold: {gold}].");
                 answer1 = Console.ReadLine();
                 Success = int.TryParse(answer1, out bet);
             }
@@ -183,26 +190,48 @@ void MatchStartUp()
             while (bet > gold || bet < 1)
                 if (bet > gold)
                 {
-                    Console.WriteLine($"You want to bet {bet} gold but you only have {gold} gold. You cannot bet more gold than you have, try again. \nHow much gold do you wish to bet?");
-                    answer1 = Console.ReadLine();
-                    Success = int.TryParse(answer1, out bet);
+                    Console.WriteLine($"You want to bet {bet} gold but you only have {gold} gold. You cannot bet more gold than you have, try again.");
+                    Success = false;
+                    while (Success == false)
+                    {
+                        Console.WriteLine($"How much gold do you wish to bet?");
+                        answer1 = Console.ReadLine();
+                        Success = int.TryParse(answer1, out bet);
+                    }
                 }
                 else if (bet == 0)
                 {
-                    Console.WriteLine("You cannot bet 0 gold, try again. \nHow much gold do you wish to bet?");
-                    answer1 = Console.ReadLine();
-                    Success = int.TryParse(answer1, out bet);
+                    Console.WriteLine("You cannot bet 0 gold, try again.");
+                    Success = false;
+                    while (Success == false)
+                    {
+                        Console.WriteLine($"How much gold do you wish to bet?");
+                        answer1 = Console.ReadLine();
+                        Success = int.TryParse(answer1, out bet);
+                    }
                 }
                 else if (bet < 0)
                 {
-                    Console.WriteLine("You cannot bet a negative amount of gold, try again. \nHow much gold do you wish to bet?");
-                    answer1 = Console.ReadLine();
-                    Success = int.TryParse(answer1, out bet);
+                    Console.WriteLine("You cannot bet a negative amount of gold, try again.");
+                    Success = false;
+                    while (Success == false)
+                    {
+                        Console.WriteLine($"How much gold do you wish to bet?");
+                        answer1 = Console.ReadLine();
+                        Success = int.TryParse(answer1, out bet);
+                    }
                 }
 
             Console.WriteLine($"You wish to bet {bet} gold?");
             answer1 = Console.ReadLine();
             answer2 = answer1.ToLower();
+
+            while(answer2 != "yes" && answer2 != "no")
+            {
+                Console.WriteLine($"Yes/no");
+                answer1 = Console.ReadLine();
+                answer2 = answer1.ToLower();
+            }
 
             if (answer2 == "yes")
             {
@@ -226,6 +255,13 @@ void MatchStartUp()
                     Console.WriteLine("Do you wish to not place a bet?");
                     answer1 = Console.ReadLine();
                     answer2 = answer1.ToLower();
+
+                    while (answer2 != "yes" && answer2 != "no")
+                    {
+                        Console.WriteLine("Do you wish to not place a bet?");
+                        answer1 = Console.ReadLine();
+                        answer2 = answer1.ToLower();
+                    }
 
                     if (answer2 == "yes")
                     {
@@ -611,8 +647,8 @@ static bool Fight(string name, string bot, int pStr, int pVit, int pCrit, int bS
             break;
         }
 
-        int banswer2 = generator.Next(1, 3);
-        if (banswer2 == 1)
+        int bAttack = generator.Next(1, 3);
+        if (bAttack == 1)
         {
             acc = generator.Next(1, 5);
             if (acc > 1)
@@ -637,7 +673,7 @@ static bool Fight(string name, string bot, int pStr, int pVit, int pCrit, int bS
                 Console.WriteLine($"{bot} missed.");
             }
         }
-        else if (banswer2 == 2)
+        else if (bAttack == 2)
         {
             acc = generator.Next(1, 11);
             if (acc < 5)
