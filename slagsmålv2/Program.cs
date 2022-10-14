@@ -10,7 +10,6 @@ int skillPoint = 0;
 int bStr = 0;
 int bVit = 0;
 int bCrit = 0;
-// int bSkills = 5;
 int streak = 0;
 int rounds = 0;
 string winLose = "boulder";
@@ -40,8 +39,7 @@ while (name.Length < 2 || name.Length > 12)
 
 while (match == true)
 {
-    // bot = GetBot();          // old way of randomizing
-    Bot();                      // new way for player too choose
+    Bot();
     MatchStartUp();
     FighterCustomizing();
     outcome = Fight(name, bot, pStr, pVit, pCrit, bStr, bVit, bCrit, pAvatar, bAvatar, rounds);
@@ -360,30 +358,6 @@ void FighterCustomizing()
             Console.WriteLine("That was not an option, try again.");
         }
     }
-
-    // bStr = 0;            //old way of randomizing bot skills
-    // bVit = 0;
-    // bCrit = 0;
-    // bSkills = 5;
-    // while (bSkills > 0)
-    // {
-    //     int bStats = generator.Next(1, 4);
-    //     if (bStats == 1)
-    //     {
-    //         bStr += 2;
-    //         bSkills--;
-    //     }
-    //     else if (bStats == 2)
-    //     {
-    //         bVit += 10;
-    //         bSkills--;
-    //     }
-    //     else if (bStats == 3)
-    //     {
-    //         bCrit += 1;
-    //         bSkills--;
-    //     }
-    // }
 
     Console.WriteLine($"{name} has {pStr / 2} strength, {pVit / 10} vitality and {pCrit} crit chance. \n{bot} has {bStr / 2} strength, {bVit / 10} vitality and {bCrit} crit chance. \nPress enter to continue.");
     Console.ReadLine();
@@ -767,24 +741,3 @@ static bool Fight(string name, string bot, int pStr, int pVit, int pCrit, int bS
 
     return outcome;
 }
-
-// static string GetBot()
-// {
-//     string bot = "pebble";
-//     Random generator = new Random();
-//     int botNum = generator.Next(1, 4);
-//     if (botNum == 1)
-//     {
-//         bot = "John";
-//     }
-//     else if (botNum == 2)
-//     {
-//         bot = "Max";
-//     }
-//     else if (botNum == 3)
-//     {
-//         bot = "Steve";
-//     }
-
-//     return bot;
-// }
