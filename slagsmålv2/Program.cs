@@ -164,7 +164,7 @@ void MatchStartUp()
 
         while (betting == true)
         {
-            while(winLose != "win" || winLose != "lose")
+            while (winLose != "win" && winLose != "lose")
             {
                 Console.Clear();
                 Console.WriteLine("What will you bet on, that you win or lose?");
