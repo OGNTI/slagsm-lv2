@@ -100,7 +100,7 @@ void Bot()
     Console.WriteLine($"{name} choose your opponent. \nJohn: 2 strength, 2 vitality and 1 crit chance. \nMax: 1 strength, 1 vitality and 3 crit chance. \nSteve: 0 strength, 5 vitality and 2 crit chance. \nCharles: 2 strength, 3 vitality and 5 crit chance. \nTalion: 5 strength, 10 vitality and 5 crit chance.");
     answer1 = Console.ReadLine();
     answer2 = answer1.ToLower();
-    while (answer2 != "john" && answer2 != "max" && answer2 != "steve" && answer2 != "charles")
+    while (answer2 != "john" && answer2 != "max" && answer2 != "steve" && answer2 != "charles" && answer2 != "talion")
     {
         Console.WriteLine("That was not an option, try again.");
         answer1 = Console.ReadLine();
@@ -296,7 +296,7 @@ void MatchStartUp()
 void FighterCustomizing()
 {
     Console.Clear();
-    skillPoint += 50;
+    skillPoint += 3;
     while (skillPoint > 0)
     {
         if (pStr >= 20 && pVit >= 100 && pCrit >= 10)
